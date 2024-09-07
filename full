@@ -1,0 +1,2 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1kidskidder/buttons/main/camlock",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1kidskidder/v4/main/1237",true))()
