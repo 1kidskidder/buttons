@@ -1,130 +1,72 @@
---[[
+-- Silent Aim Script
 
-This Silent Aim Is Private All Made By 1 Person (Adrian!) is The ONLY Creator
+SilentAimEnabled = true -- yk this 
+ShowFOV = true -- yk this 
+FOVSides = 12  -- yk this 
+VisibleCheck = true -- yk this 
+TeamCheck = true -- yk this 
+FOV = 60 -- how big the fov circle anyone in the circle gets hits
+HitChance = 100000 -- Hit chance meaning how legit u want 100 meaning hits everything but yk 
 
-( dont get fooled by wannabe coders )
+function SilentAim()
+    local closestPlayer = nil
+    local closestDistance = math.huge
 
-Don't try to crack this script either (you cant anyways so you will be fine)
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= LocalPlayer and (VisibleCheck == false or player.Character:FindFirstChild("Head") ~= nil) and (TeamCheck == false or player.TeamColor ~= LocalPlayer.TeamColor) then
+            local character = player.Character
+            if character then
+                local head = character:FindFirstChild("Head")
+                if head then
+                    local distance = (head.Position - LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude
 
-This Script Currently Supports;  electron, and some mobile executors
+                    if distance < closestDistance then
+                        closestDistance = distance
+                        closestPlayer = player
+                    end
+                 end
+                 end
+                 end
 
-Haunt.xyz #1 Free Silent Aim For DAHOOD.
+    if closestPlayer and closestPlayer.Character and closestPlayer.Character:FindFirstChild("Head") and closestPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        Selected = closestPlayer
+        SelectedPart = closestPlayer.Character:FindFirstChild("Head")
 
---]]
+        local targetPart = nil
+        local targetPartDistance = math.huge
 
--- silent aim --
+        for _, partName in pairs({"Head", "HumanoidRootPart"}}) do
+            local part = Selected.Character:FindFirstChild(partName)
+            if part then
+                local partDistance = (part.Position - LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude
 
-getgenv().Enabled = true,
-getgenv().Aimpart = "Head",
-getgenv().NearestPoint = false, 
-getgenv().ToggleKey = "nill", -- set to "nil" if u dont want the script to be toggleable
-getgenv().Prediction = 0.153,
+                if partDistance < targetPartDistance then
+                    targetPartDistance = partDistance
+                    targetPart = part
+                 end
+                 end
+                 end
 
+        if targetPart then
+            local aimDirection = (targetPart.Position - LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Unit
+            local aimRotation = CFrame.new(LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position, targetPart.Position)
 
+            LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = aimRotation
 
--- checks --
+            if ShowFOV then
+                local fovSize = FOVSides / 2
+                local fovCenter = Vector3.new(0, LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position.Y, 0)
 
-getgenv().WallCheck = false,
-getgenv().KoCheck = true,
-getgenv().KnockedCheck = true,
-getgenv().CrewCheck = true,
-getgenv().FriendCheck = false,
-getgenv().AntiAimViewer = true,
-getgenv().AntiAimViewerType = "CursorOffset",
-getgenv().Resolver = true,
-getgenv().ResolverType = "StoredPos", -- this is the best resolver type
+                for i = 1, 1 do
+                    local fovPoint = CFrame.Angles(math.rad(i * (360 / FOVSides) - (FOVSides / 2) * math.rad(180 / FOVSides)), Vector3.new(0, 1, 0)).p
+                    local fovPointWorld = LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame * Vector3.new(fovPoint.X, fovPoint.Y, fovPoint.Z)
+                    local fovPointWorldDis = (fovPointWorld - LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude
 
-
--- Prediction --
-
-getgenv().AutoPrediction = false,
-getgenv().IntersectionalMode = true, -- does not work if enemy is using fake lag or aa (just turn on resolver)
-
-
-getgenv().CustomAutoPrediction
-   Settings = {
-
-  Ping10 = 0.0922,
-  Ping20 = 0.10,
-  Ping30 = 0.11,
-  Ping40 = 0.13,
-  Ping50 = 0.143321,
-  Ping60 = 0.1443,
-  Ping70 = 0.144433333333333392,
-  Ping80 = 0.15,
-  Ping90 = 0.1611,
-  Ping100 = 0.1644322,
-
-getgenv().Over100Ping = 0.188, -- changes pred to this if ur over 100
-
-
--- FOV --
-
-getgenv().UseFov = true,
-getgenv().FovSize = 120,
-getgenv().FovSides = 999,
-getgenv().FovShape = "Default",
-getgenv().FovColor = Color3.fromRGB(255,255,255)
-getgenv().HightlightInsideFov = true,
-getgenv().HighlightColor1 = Color3.fromRGB(255,0,0)
-getgenv().HighlightColor2 = Color3.fromRGB(255,255,255)
-
-
--- CAMLOCK --
-
-
-getgenv().Enabled = false
-getgenv().Prediction = 0.1583
-getgenv().AutoPrediction = false,
-getgenv().Aimpart = "HumanoidRootPart"
-getgenv().UseSmoothing = true,
-getgenv().SmoothingValue = 0.035
-
--- Shake --
-
-getgenv().Enabled = true,
-getgenv().ShakeX = 4
-getgenv().ShakeY = 4
-getgenv().ShakeZ = 4
-
-
--- checks --
-
-
-getgenv().WallCheck = true,
-getgenv().KoCheck = true,
-getgenv().KnockedCheck = true,
-getgenv().CrewCheck = true,
-getgenv().FriendCheck = true,
-getgenv().AntiAimViewer = true,
-getgenv().AntiAimViewerType = "CursorOffset",
-getgenv().Resolver = true,
-getgenv().ResolverType = "StoredPos",
-
-
--- ESP --
-
-getgenv().Enabled = false,
-getgenv().Boxes = true,
-getgenv().BoxesColor = Color3.fromRGB(255,255,255)
-getgenv().HealthBar = true,
-getgenv().HealthBarColor = Color3.fromRGB(255,255,255)
-getgenv().NameTags = true,
-getgenv().NameTagsColor = Color3.fromRGB(255,255,255)
-getgenv().RenderDistance = 1000, -- how far away you can see the esp
-
--- CREDIT --
-
--- hauntrah on discord
-
--- dm me if u expierence bugs, although this script is private i may release it soon.
-
--- Haunt.xyz #1 Free Silent Aim For DAHOOD.
-
--- THIS SCRIPT IS 59% COMPLETE, EVERYTHING IS WORKING THO.
-
-
-
--- main loadstring, dont go and try to crack because you cant bozo
-
-loadstring(game:httpget("https://raw.githubusercontent.com/HauntttRah/SilentAim.lua/main/Private.lua"))();
+                    if fovPointWorldDis < 10 then
+                        draw(fovPointWorld, Color3.new(1, 0, 0))
+                    end
+                 end
+                 end
+                 end
+                 end
+                 end
