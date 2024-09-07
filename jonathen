@@ -113,4 +113,18 @@ getgenv().NameTags = true,
 getgenv().NameTagsColor = Color3.fromRGB(255,255,255)
 getgenv().RenderDistance = 1000, -- how far away you can see the esp
 
+-- CREDIT --
+
+-- hauntrah on discord
+
+-- dm me if u expierence bugs, although this script is private i may release it soon.
+
+-- Haunt.xyz #1 Free Silent Aim For DAHOOD.
+
+-- THIS SCRIPT IS 59% COMPLETE, EVERYTHING IS WORKING THO.
+
+
+
+-- main loadstring, dont go and try to crack because you cant bozo
+
 loadstring(game:httpget("https://raw.githubusercontent.com/HauntttRah/SilentAim.lua/main/Private.lua"))();
